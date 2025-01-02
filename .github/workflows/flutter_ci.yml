@@ -1,4 +1,4 @@
-name: Flutter CI/CD
+name: Flutter CI
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Test and Analyze
+    name: Test and analyze
     runs-on: ubuntu-latest
 
     steps:
@@ -32,6 +32,8 @@ jobs:
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   build-android:
     name: Build Android App
@@ -51,36 +53,85 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --release
+      - name: Build debug APK
+        run: flutter build apk --debug
 
-      - name: Upload APK
+      - name: Build instrumentation test APK
+        run: flutter build apk --profile --target=integration_test/app_test.dart
+
+      - name: Upload debug APK
         uses: actions/upload-artifact@v3
         with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: app-debug
+          path: build/app/outputs/flutter-apk/app-debug.apk
 
-  build-ios:
-    name: Build iOS App
-    needs: test
-    runs-on: macos-latest
+      - name: Upload test APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug-androidTest
+          path: build/app/outputs/flutter-apk/app-profile-androidTest.apk
+
+  firebase-test-lab:
+    name: Run UI tests with Firebase Test Lab
+    needs: build-android
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Download app APK
+        uses: actions/download-artifact@v3
         with:
-          flutter-version: '3.x'
-          channel: 'stable'
-          cache: true
+          name: app-debug
+          path: app-debug
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Download Android test APK
+        uses: actions/download-artifact@v3
+        with:
+          name: app-debug-androidTest
+          path: app-debug-androidTest
 
-      - name: Build iOS
-        run: flutter build ios --release --no-codesign
+      - name: Login to Google Cloud
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+          export_default_credentials: true
 
+      - name: Set current project
+        run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
+
+      - name: Run instrumentation tests in Firebase Test Lab
+        run: |
+          gcloud firebase test android run \
+            --type instrumentation \
+            --app app-debug/app-debug.apk \
+            --test app-debug-androidTest/app-profile-androidTest.apk \
+            --device model=blueline,version=28 \
+            --device model=flame,version=30 \
+            --timeout 5m
+  #
+  # build-ios:
+  #   name: Build iOS App
+  #   needs: test
+  #   runs-on: macos-latest
+  #
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #
+  #     - name: Setup Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         flutter-version: '3.x'
+  #         channel: 'stable'
+  #         cache: true
+  #
+  #     - name: Install dependencies
+  #       run: flutter pub get
+  #
+  #     - name: Build iOS
+  #       run: flutter build ios --release --no-codesign
+  #
   # build-web:
   #   name: Build Web App
   #   needs: test
@@ -102,7 +153,7 @@ jobs:
   #     - name: Build Web
   #       run: flutter build web --release
   #
-  #     - name: Upload Web Build
+  #     - name: Upload Web artifact
   #       uses: actions/upload-artifact@v3
   #       with:
   #         name: web-build
