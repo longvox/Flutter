@@ -56,9 +56,6 @@ jobs:
       - name: Build debug APK
         run: flutter build apk --debug
 
-      - name: Build instrumentation test APK
-        run: flutter build apk --profile --target=integration_test/app_test.dart
-
       - name: Upload debug APK
         uses: actions/upload-artifact@v3
         with:
