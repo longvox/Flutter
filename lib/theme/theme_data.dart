@@ -17,8 +17,7 @@ class ThemeConfig {
     required Color error,
   }) {
     final baseTextTheme = brightness == Brightness.dark
-        ? Typography.material2021().black 
-
+        ? Typography.material2021().black
         : Typography.material2021().white;
 
     return ThemeData(
@@ -34,18 +33,16 @@ class ThemeConfig {
       cardTheme: CardTheme(
         color: cardBackground,
         margin: EdgeInsets.zero,
-        clipBehavior: Clip.antiAliasWithSaveLayer, 
-
+        clipBehavior: Clip.antiAliasWithSaveLayer,
       ),
-      primaryColor: accentColor, 
+      primaryColor: accentColor,
 
       textSelectionTheme: TextSelectionThemeData(
         selectionColor: accentColor,
         selectionHandleColor: accentColor,
         cursorColor: accentColor,
       ),
-      appBarTheme: AppBarTheme( 
-
+      appBarTheme: AppBarTheme(
         backgroundColor: cardBackground,
         foregroundColor: secondaryText, // For icons and text
         toolbarTextStyle: baseTextTheme.bodyMedium!.copyWith(
@@ -62,15 +59,13 @@ class ThemeConfig {
       ),
       iconTheme: IconThemeData(
         color: secondaryText,
-        size: 16.0, 
-
+        size: 16.0,
       ),
       buttonTheme: ButtonThemeData(
         textTheme: ButtonTextTheme.primary,
         colorScheme: ColorScheme(
           brightness: brightness,
-          primary: accentColor, 
-
+          primary: accentColor,
           onPrimary: buttonText,
           secondary: accentColor,
           onSecondary: buttonText,
@@ -89,8 +84,7 @@ class ThemeConfig {
       ),
       inputDecorationTheme: InputDecorationTheme(
         errorStyle: TextStyle(color: error),
-        labelStyle: TextStyle( 
-
+        labelStyle: TextStyle(
           fontFamily: 'Rubik',
           fontWeight: FontWeight.w600,
           fontSize: 16.0,
@@ -104,8 +98,7 @@ class ThemeConfig {
       ),
       fontFamily: 'Rubik',
       unselectedWidgetColor: hexToColor('#DADCDD'),
-      textTheme: 
- TextTheme(
+      textTheme: TextTheme(
         displayLarge: baseTextTheme.displayLarge!.copyWith(
           color: primaryText,
           fontSize: 34.0,
@@ -114,8 +107,7 @@ class ThemeConfig {
         displayMedium: baseTextTheme.displayMedium!.copyWith(
           color: primaryText,
           fontSize: 22,
-          fontWeight: FontWeight.bold, 
-
+          fontWeight: FontWeight.bold,
         ),
         headlineLarge: baseTextTheme.headlineLarge!.copyWith(
           color: secondaryText,
@@ -125,8 +117,7 @@ class ThemeConfig {
         headlineMedium: baseTextTheme.headlineMedium!.copyWith(
           color: primaryText,
           fontSize: 18,
-          fontWeight: FontWeight.w600, 
-
+          fontWeight: FontWeight.w600,
         ),
         titleLarge: baseTextTheme.titleLarge!.copyWith(
           color: primaryText,
@@ -144,8 +135,7 @@ class ThemeConfig {
         ),
         bodyMedium: baseTextTheme.bodyMedium!.copyWith(
           color: primaryText,
-          fontSize: 
- 12,
+          fontSize: 12,
           fontWeight: FontWeight.w400,
         ),
         labelLarge: baseTextTheme.labelLarge!.copyWith(
@@ -153,8 +143,7 @@ class ThemeConfig {
           fontSize: 12.0,
           fontWeight: FontWeight.w700,
         ),
-        bodySmall: baseTextTheme.bodySmall!.copyWith( 
-
+        bodySmall: baseTextTheme.bodySmall!.copyWith(
           color: primaryText,
           fontSize: 11.0,
           fontWeight: FontWeight.w300,
@@ -162,8 +151,7 @@ class ThemeConfig {
         labelSmall: baseTextTheme.labelSmall!.copyWith(
           color: secondaryText,
           fontSize: 11.0,
-          fontWeight: FontWeight.w500, 
-
+          fontWeight: FontWeight.w500,
         ),
       ),
       colorScheme: ColorScheme.fromSwatch(
@@ -172,15 +160,13 @@ class ThemeConfig {
           50: accentColor.withOpacity(0.1),
           100: accentColor.withOpacity(0.2),
           200: accentColor.withOpacity(0.3),
-          300: accentColor.withOpacity(0.4), 
-
+          300: accentColor.withOpacity(0.4),
           400: accentColor.withOpacity(0.5),
           500: accentColor.withOpacity(0.6),
           600: accentColor.withOpacity(0.7),
           700: accentColor.withOpacity(0.8),
           800: accentColor.withOpacity(0.9),
-          900: accentColor.withOpacity(1.0), 
-
+          900: accentColor.withOpacity(1.0),
         }),
         accentColor: accentColor,
         backgroundColor: background,

@@ -28,7 +28,7 @@ import 'package:shared_preferences/src/shared_preferences_legacy.dart' as _i6;
 
 class _FakeApiProvider_0 extends _i1.SmartFake implements _i2.ApiProvider {
   _FakeApiProvider_0(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+      : super(parent, parentInvocation);
 }
 
 /// A class which mocks [ApiRepository].
@@ -40,39 +40,33 @@ class MockApiRepository extends _i1.Mock implements _i2.ApiRepository {
   }
 
   @override
-  _i2.ApiProvider get apiProvider =>
-      (super.noSuchMethod(
-            Invocation.getter(#apiProvider),
-            returnValue: _FakeApiProvider_0(
-              this,
-              Invocation.getter(#apiProvider),
-            ),
-          )
-          as _i2.ApiProvider);
+  _i2.ApiProvider get apiProvider => (super.noSuchMethod(
+        Invocation.getter(#apiProvider),
+        returnValue: _FakeApiProvider_0(
+          this,
+          Invocation.getter(#apiProvider),
+        ),
+      ) as _i2.ApiProvider);
 
   @override
   _i3.Future<_i4.LoginResponse?> login(_i4.LoginRequest? data) =>
       (super.noSuchMethod(
-            Invocation.method(#login, [data]),
-            returnValue: _i3.Future<_i4.LoginResponse?>.value(),
-          )
-          as _i3.Future<_i4.LoginResponse?>);
+        Invocation.method(#login, [data]),
+        returnValue: _i3.Future<_i4.LoginResponse?>.value(),
+      ) as _i3.Future<_i4.LoginResponse?>);
 
   @override
   _i3.Future<_i4.RegisterResponse?> register(_i4.RegisterRequest? data) =>
       (super.noSuchMethod(
-            Invocation.method(#register, [data]),
-            returnValue: _i3.Future<_i4.RegisterResponse?>.value(),
-          )
-          as _i3.Future<_i4.RegisterResponse?>);
+        Invocation.method(#register, [data]),
+        returnValue: _i3.Future<_i4.RegisterResponse?>.value(),
+      ) as _i3.Future<_i4.RegisterResponse?>);
 
   @override
-  _i3.Future<_i5.UsersResponse?> getUsers() =>
-      (super.noSuchMethod(
-            Invocation.method(#getUsers, []),
-            returnValue: _i3.Future<_i5.UsersResponse?>.value(),
-          )
-          as _i3.Future<_i5.UsersResponse?>);
+  _i3.Future<_i5.UsersResponse?> getUsers() => (super.noSuchMethod(
+        Invocation.method(#getUsers, []),
+        returnValue: _i3.Future<_i5.UsersResponse?>.value(),
+      ) as _i3.Future<_i5.UsersResponse?>);
 }
 
 /// A class which mocks [SharedPreferences].
@@ -84,12 +78,10 @@ class MockSharedPreferences extends _i1.Mock implements _i6.SharedPreferences {
   }
 
   @override
-  Set<String> getKeys() =>
-      (super.noSuchMethod(
-            Invocation.method(#getKeys, []),
-            returnValue: <String>{},
-          )
-          as Set<String>);
+  Set<String> getKeys() => (super.noSuchMethod(
+        Invocation.method(#getKeys, []),
+        returnValue: <String>{},
+      ) as Set<String>);
 
   @override
   Object? get(String? key) =>
@@ -112,12 +104,10 @@ class MockSharedPreferences extends _i1.Mock implements _i6.SharedPreferences {
       (super.noSuchMethod(Invocation.method(#getString, [key])) as String?);
 
   @override
-  bool containsKey(String? key) =>
-      (super.noSuchMethod(
-            Invocation.method(#containsKey, [key]),
-            returnValue: false,
-          )
-          as bool);
+  bool containsKey(String? key) => (super.noSuchMethod(
+        Invocation.method(#containsKey, [key]),
+        returnValue: false,
+      ) as bool);
 
   @override
   List<String>? getStringList(String? key) =>
@@ -125,75 +115,58 @@ class MockSharedPreferences extends _i1.Mock implements _i6.SharedPreferences {
           as List<String>?);
 
   @override
-  _i3.Future<bool> setBool(String? key, bool? value) =>
-      (super.noSuchMethod(
-            Invocation.method(#setBool, [key, value]),
-            returnValue: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> setBool(String? key, bool? value) => (super.noSuchMethod(
+        Invocation.method(#setBool, [key, value]),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> setInt(String? key, int? value) =>
-      (super.noSuchMethod(
-            Invocation.method(#setInt, [key, value]),
-            returnValue: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> setInt(String? key, int? value) => (super.noSuchMethod(
+        Invocation.method(#setInt, [key, value]),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> setDouble(String? key, double? value) =>
-      (super.noSuchMethod(
-            Invocation.method(#setDouble, [key, value]),
-            returnValue: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> setDouble(String? key, double? value) => (super.noSuchMethod(
+        Invocation.method(#setDouble, [key, value]),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> setString(String? key, String? value) =>
-      (super.noSuchMethod(
-            Invocation.method(#setString, [key, value]),
-            returnValue: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> setString(String? key, String? value) => (super.noSuchMethod(
+        Invocation.method(#setString, [key, value]),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 
   @override
   _i3.Future<bool> setStringList(String? key, List<String>? value) =>
       (super.noSuchMethod(
-            Invocation.method(#setStringList, [key, value]),
-            returnValue: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+        Invocation.method(#setStringList, [key, value]),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> remove(String? key) =>
-      (super.noSuchMethod(
-            Invocation.method(#remove, [key]),
-            returnValue: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> remove(String? key) => (super.noSuchMethod(
+        Invocation.method(#remove, [key]),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> commit() =>
-      (super.noSuchMethod(
-            Invocation.method(#commit, []),
-            returnValue: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> commit() => (super.noSuchMethod(
+        Invocation.method(#commit, []),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> clear() =>
-      (super.noSuchMethod(
-            Invocation.method(#clear, []),
-            returnValue: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> clear() => (super.noSuchMethod(
+        Invocation.method(#clear, []),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<void> reload() =>
-      (super.noSuchMethod(
-            Invocation.method(#reload, []),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
-          )
-          as _i3.Future<void>);
+  _i3.Future<void> reload() => (super.noSuchMethod(
+        Invocation.method(#reload, []),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }

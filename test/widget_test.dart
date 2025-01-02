@@ -18,26 +18,27 @@ import 'widget_test.mocks.dart';
 
 @GenerateMocks([SharedPreferences])
 void main() {
-  testWidgets('App should render and show splash screen', (WidgetTester tester) async {
+  testWidgets('App should render and show splash screen',
+      (WidgetTester tester) async {
     // Initialize GetX test mode and dependencies
     Get.testMode = true;
     final mockPrefs = MockSharedPreferences();
     when(mockPrefs.getString(any)).thenReturn(null);
     Get.put<SharedPreferences>(mockPrefs);
-    
+
     // Build our app and trigger a frame.
     await tester.pumpWidget(App());
 
     // Verify that we have a GetMaterialApp
     expect(find.byType(GetMaterialApp), findsOneWidget);
-    
+
     // Verify initial route is splash
     expect(Get.currentRoute, equals(Routes.SPLASH));
-    
+
     // Wait for splash screen timer and navigation
     await tester.pump(Duration(milliseconds: 2000));
     await tester.pumpAndSettle();
-    
+
     // After splash screen timer, we should be on the auth screen since no token is set
     expect(Get.currentRoute, equals(Routes.AUTH));
   });

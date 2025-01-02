@@ -46,7 +46,7 @@ void main() {
     mockApiRepository = MockApiRepository();
     mockSharedPreferences = MockSharedPreferences();
     Get.put<SharedPreferences>(mockSharedPreferences);
-    
+
     Get.testMode = true;
     authController = AuthController(apiRepository: mockApiRepository);
   });
@@ -56,22 +56,24 @@ void main() {
   });
 
   group('AuthController Tests', () {
-    testWidgets('login - successful login should store token and navigate to home', 
-      (WidgetTester tester) async {
+    testWidgets(
+        'login - successful login should store token and navigate to home',
+        (WidgetTester tester) async {
       // Arrange
       final loginResponse = LoginResponse(token: 'test_token');
-      
-      when(mockApiRepository.login(any))
-          .thenAnswer((_) async => loginResponse);
-      
-      when(mockSharedPreferences.setString(StorageConstants.token, 'test_token'))
+
+      when(mockApiRepository.login(any)).thenAnswer((_) async => loginResponse);
+
+      when(mockSharedPreferences.setString(
+              StorageConstants.token, 'test_token'))
           .thenAnswer((_) async => true);
 
       authController.loginEmailController.text = 'test@example.com';
       authController.loginPasswordController.text = 'password123';
-      
-      await tester.pumpWidget(TestFormWidget(formKey: authController.loginFormKey));
-      
+
+      await tester
+          .pumpWidget(TestFormWidget(formKey: authController.loginFormKey));
+
       // Act
       final context = tester.element(find.byType(Form));
       await authController.login(context);
@@ -79,28 +81,29 @@ void main() {
 
       // Assert
       verify(mockApiRepository.login(any)).called(1);
-      verify(mockSharedPreferences.setString(StorageConstants.token, 'test_token')).called(1);
+      verify(mockSharedPreferences.setString(
+              StorageConstants.token, 'test_token'))
+          .called(1);
     });
 
-    testWidgets('register - successful registration should store token', 
-      (WidgetTester tester) async {
+    testWidgets('register - successful registration should store token',
+        (WidgetTester tester) async {
       // Arrange
-      final registerResponse = RegisterResponse(
-        id: 1,
-        token: 'test_token'
-      );
+      final registerResponse = RegisterResponse(id: 1, token: 'test_token');
 
       when(mockApiRepository.register(any))
           .thenAnswer((_) async => registerResponse);
 
-      when(mockSharedPreferences.setString(StorageConstants.token, 'test_token'))
+      when(mockSharedPreferences.setString(
+              StorageConstants.token, 'test_token'))
           .thenAnswer((_) async => true);
 
       authController.registerEmailController.text = 'test@example.com';
       authController.registerPasswordController.text = 'password123';
       authController.registerTermsChecked = true;
 
-      await tester.pumpWidget(TestFormWidget(formKey: authController.registerFormKey));
+      await tester
+          .pumpWidget(TestFormWidget(formKey: authController.registerFormKey));
 
       // Act
       final context = tester.element(find.byType(Form));
@@ -109,15 +112,18 @@ void main() {
 
       // Assert
       verify(mockApiRepository.register(any)).called(1);
-      verify(mockSharedPreferences.setString(StorageConstants.token, 'test_token')).called(1);
+      verify(mockSharedPreferences.setString(
+              StorageConstants.token, 'test_token'))
+          .called(1);
     });
 
-    testWidgets('register - should not proceed if terms not checked', 
-      (WidgetTester tester) async {
+    testWidgets('register - should not proceed if terms not checked',
+        (WidgetTester tester) async {
       // Arrange
       authController.registerTermsChecked = false;
 
-      await tester.pumpWidget(TestFormWidget(formKey: authController.registerFormKey));
+      await tester
+          .pumpWidget(TestFormWidget(formKey: authController.registerFormKey));
 
       // Act
       final context = tester.element(find.byType(Form));
@@ -133,11 +139,19 @@ void main() {
       authController.onClose();
 
       // Assert - verify controllers are disposed by checking if they're marked as disposed
-      expect(authController.registerEmailController.value.isComposingRangeValid, false);
-      expect(authController.registerPasswordController.value.isComposingRangeValid, false);
-      expect(authController.registerConfirmPasswordController.value.isComposingRangeValid, false);
-      expect(authController.loginEmailController.value.isComposingRangeValid, false);
-      expect(authController.loginPasswordController.value.isComposingRangeValid, false);
+      expect(authController.registerEmailController.value.isComposingRangeValid,
+          false);
+      expect(
+          authController.registerPasswordController.value.isComposingRangeValid,
+          false);
+      expect(
+          authController
+              .registerConfirmPasswordController.value.isComposingRangeValid,
+          false);
+      expect(authController.loginEmailController.value.isComposingRangeValid,
+          false);
+      expect(authController.loginPasswordController.value.isComposingRangeValid,
+          false);
     });
   });
 }

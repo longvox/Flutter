@@ -83,7 +83,7 @@ class _GradientPainter extends CustomPainter {
     required double strokeWidth,
     required double radius,
     required Gradient gradient,
-  })   : this.strokeWidth = strokeWidth,
+  })  : this.strokeWidth = strokeWidth,
         this.radius = radius,
         this.gradient = gradient;
 
