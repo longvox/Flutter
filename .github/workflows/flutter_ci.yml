@@ -79,45 +79,34 @@ jobs:
           name: app-debug
           path: app-debug
 
-      - name: Authenticate to Google Cloud
-        id: auth
-        uses: google-github-actions/auth@v1
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: ${{ secrets.GCLOUD_AUTH }}
+          credentials_json: '${{ secrets.GCLOUD_AUTH }}'
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
 
-      - name: Enable required APIs
-        run: |
-          gcloud services enable cloudresourcemanager.googleapis.com
-          gcloud services enable firebase.googleapis.com
-          gcloud services enable toolresults.googleapis.com
-          gcloud services enable testing.googleapis.com
-          gcloud services enable cloudtoolresults.googleapis.com
-
-      - name: Configure Firebase Project
-        run: |
-          gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
 
       - name: Run tests in Firebase Test Lab
         run: |
           gcloud firebase test android run \
             --type robo \
             --app app-debug/app-debug.apk \
-            --device model=blueline,version=28 \
-            --device model=flame,version=30 \
+            --device model=Pixel2,version=28 \
             --timeout 5m \
-            --results-dir="test-results"
+            --results-bucket=gs://${{ secrets.FIREBASE_PROJECT_ID }}.appspot.com \
+            --results-dir=tests/firebase
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: test-results/
+          path: tests/firebase/
 
   # build-ios:
   #   name: Build iOS App
