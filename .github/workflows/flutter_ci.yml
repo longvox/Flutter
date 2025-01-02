@@ -62,12 +62,6 @@ jobs:
           name: app-debug
           path: build/app/outputs/flutter-apk/app-debug.apk
 
-      - name: Upload test APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-debug-androidTest
-          path: build/app/outputs/flutter-apk/app-profile-androidTest.apk
-
   firebase-test-lab:
     name: Run UI tests with Firebase Test Lab
     needs: build-android
@@ -82,12 +76,6 @@ jobs:
           name: app-debug
           path: app-debug
 
-      - name: Download Android test APK
-        uses: actions/download-artifact@v3
-        with:
-          name: app-debug-androidTest
-          path: app-debug-androidTest
-
       - name: Login to Google Cloud
         uses: google-github-actions/setup-gcloud@v0
         with:
@@ -98,16 +86,23 @@ jobs:
       - name: Set current project
         run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
 
-      - name: Run instrumentation tests in Firebase Test Lab
+      - name: Run tests in Firebase Test Lab
         run: |
           gcloud firebase test android run \
-            --type instrumentation \
+            --type robo \
             --app app-debug/app-debug.apk \
-            --test app-debug-androidTest/app-profile-androidTest.apk \
             --device model=blueline,version=28 \
             --device model=flame,version=30 \
-            --timeout 5m
-  #
+            --timeout 5m \
+            --results-dir="test-results"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test-results/
+
   # build-ios:
   #   name: Build iOS App
   #   needs: test
@@ -128,7 +123,7 @@ jobs:
   #
   #     - name: Build iOS
   #       run: flutter build ios --release --no-codesign
-  #
+
   # build-web:
   #   name: Build Web App
   #   needs: test
