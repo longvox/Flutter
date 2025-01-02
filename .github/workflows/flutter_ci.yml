@@ -90,10 +90,17 @@ jobs:
         with:
           project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
 
+      - name: Enable required APIs
+        run: |
+          gcloud services enable cloudresourcemanager.googleapis.com
+          gcloud services enable firebase.googleapis.com
+          gcloud services enable toolresults.googleapis.com
+          gcloud services enable testing.googleapis.com
+          gcloud services enable cloudtoolresults.googleapis.com
+
       - name: Configure Firebase Project
         run: |
           gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
-          gcloud firebase projects:list
 
       - name: Run tests in Firebase Test Lab
         run: |
