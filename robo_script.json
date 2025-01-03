@@ -1,0 +1,21 @@
+{
+  "startingActions": [
+    {
+      "input": {
+        "type": "BACK"
+      }
+    }
+  ],
+  "eventFilters": [
+    {
+      "blacklist": [
+        "clickable": "Sign Out",
+        "clickable": "Delete Account"
+      ]
+    }
+  ],
+  "crawlRules": {
+    "maxDepth": 8,
+    "maxSteps": 100
+  }
+}

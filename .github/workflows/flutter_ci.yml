@@ -124,11 +124,10 @@ jobs:
             --timeout 90s \
             --results-bucket=gs://$BUCKET_NAME \
             --results-dir=test-results \
-            --robo-script=test_lab_robo_script.json \
+            --robo-script=robo_script.json \
             --num-flaky-test-attempts=1 \
             --directories-to-pull=/sdcard/screenshots \
             --environment-variables=clearPackageData=true \
-            --test-targets="class com.example.app.MainActivityTest" \
             --quiet
 
   # build-ios:
