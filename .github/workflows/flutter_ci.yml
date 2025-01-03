@@ -90,42 +90,12 @@ jobs:
 
       - name: Run tests in Firebase Test Lab
         run: |
-          gcloud firebase test android run \
+          gcloud beta firebase test android run \
             --type robo \
             --app app-debug/app-debug.apk \
             --device model=Pixel2,version=28 \
-            --timeout 5m \
-            --format="json" \
-            --async
-
-      - name: Wait for test completion and get results
-        run: |
-          MATRIX_ID=$(gcloud firebase test matrix list --format="get(testMatrixId)" --limit=1)
-          echo "Latest test matrix ID: $MATRIX_ID"
-          
-          while true; do
-            STATUS=$(gcloud firebase test matrix describe "$MATRIX_ID" --format="get(state)")
-            echo "Test status: $STATUS"
-            
-            if [ "$STATUS" = "FINISHED" ]; then
-              break
-            elif [ "$STATUS" = "ERROR" ] || [ "$STATUS" = "INVALID" ]; then
-              echo "Test failed with status: $STATUS"
-              exit 1
-            fi
-            
-            sleep 30
-          done
-          
-          # Get the test results
-          gcloud firebase test matrix describe "$MATRIX_ID" --format="json" > test-results.json
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: test-results.json
+            --timeout 2m \
+            --quiet
 
   # build-ios:
   #   name: Build iOS App
