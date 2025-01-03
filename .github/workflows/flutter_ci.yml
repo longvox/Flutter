@@ -114,11 +114,13 @@ jobs:
           gcloud firebase test android run \
             --type robo \
             --app app-debug/app-debug.apk \
-            --device model=Pixel2,version=28 \
-            --timeout 90s \
+            --device model=Pixel2,version=28,locale=en \
+            --timeout 300s \
             --results-bucket=gs://$BUCKET_NAME \
             --results-dir=results-$TIMESTAMP \
-            --robo-script=robo_script.json \
+            --robo-directives=text:emailTextField=eve.holt@reqres.in,text:passwordTextField=pistol \
+            --max-steps=50 \
+            --max-depth=10 \
             --quiet
 
   # build-ios:
