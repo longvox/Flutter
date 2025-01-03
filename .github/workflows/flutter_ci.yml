@@ -9,10 +9,10 @@ on:
 jobs:
   test:
     name: Test and analyze
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -31,17 +31,17 @@ jobs:
         run: flutter test --coverage
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   build-android:
     name: Build Android App
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -57,7 +57,7 @@ jobs:
         run: flutter build apk --debug
 
       - name: Upload debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-debug
           path: build/app/outputs/flutter-apk/app-debug.apk
@@ -65,28 +65,28 @@ jobs:
   firebase-test-lab:
     name: Run UI tests with Firebase Test Lab
     needs: build-android
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: 'read'
       id-token: 'write'
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download app APK
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: app-debug
           path: app-debug
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
+        uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: '${{ secrets.GCLOUD_AUTH }}'
 
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
+        uses: 'google-github-actions/setup-gcloud@v2'
 
       - name: Install beta components
         run: |
@@ -96,10 +96,10 @@ jobs:
       - name: Create storage bucket
         run: |
           BUCKET_NAME="${{ secrets.FIREBASE_PROJECT_ID }}-test-lab"
-          
+
           # Try to create the bucket, ignore if it already exists
           gsutil mb -p ${{ secrets.FIREBASE_PROJECT_ID }} gs://$BUCKET_NAME || true
-          
+
           # Set bucket permissions
           gsutil iam ch serviceAccount:test-flutter@longvox-172516.iam.gserviceaccount.com:objectCreator gs://$BUCKET_NAME
           gsutil iam ch serviceAccount:test-flutter@longvox-172516.iam.gserviceaccount.com:objectViewer gs://$BUCKET_NAME
