@@ -88,9 +88,14 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
 
+      - name: Install beta components
+        run: |
+          gcloud components install beta --quiet
+          gcloud components update --quiet
+
       - name: Run tests in Firebase Test Lab
         run: |
-          gcloud beta firebase test android run \
+          gcloud firebase test android run \
             --type robo \
             --app app-debug/app-debug.apk \
             --device model=Pixel2,version=28 \
