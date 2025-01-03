@@ -70,6 +70,23 @@ jobs:
       - name: Build debug APK
         run: flutter build apk --debug
 
+      - name: Build AAB
+        run: flutter build appbundle --debug
+
+      - name: Authenticate to Google Cloud
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCLOUD_AUTH }}'
+
+      - name: Set up Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      - name: Upload AAB to bucket
+        run: |
+          BUCKET_NAME="longvox_test_flutter"
+          TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+          gcloud storage cp build/app/outputs/bundle/debug/app-debug.aab gs://$BUCKET_NAME/aab/app-debug-$TIMESTAMP.aab
+
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
