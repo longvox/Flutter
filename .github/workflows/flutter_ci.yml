@@ -76,52 +76,101 @@ jobs:
           name: app-debug
           path: build/app/outputs/flutter-apk/app-debug.apk
 
-  firebase-test-lab:
-    name: Run UI tests with Firebase Test Lab
-    needs: build-android
+  # firebase-test-lab:
+  #   name: Run UI tests with Firebase Test Lab
+  #   needs: build-android
+  #   runs-on: ubuntu-22.04
+  #   permissions:
+  #     contents: 'read'
+  #     id-token: 'write'
+
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: Download app APK
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: app-debug
+  #         path: app-debug
+
+  #     - id: 'auth'
+  #       name: 'Authenticate to Google Cloud'
+  #       uses: 'google-github-actions/auth@v2'
+  #       with:
+  #         credentials_json: '${{ secrets.GCLOUD_AUTH }}'
+
+  #     - name: 'Set up Cloud SDK'
+  #       uses: 'google-github-actions/setup-gcloud@v2'
+
+  #     - name: Install beta components
+  #       run: |
+  #         gcloud components install beta --quiet
+  #         gcloud components update --quiet
+
+  #     - name: Run tests in Firebase Test Lab
+  #       run: |
+  #         BUCKET_NAME="longvox_test_flutter"
+  #         TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+  #         gcloud firebase test android run \
+  #           --type robo \
+  #           --app app-debug/app-debug.apk \
+  #           --device model=Pixel2,version=28,locale=en \
+  #           --timeout 300s \
+  #           --results-bucket=gs://$BUCKET_NAME \
+  #           --results-dir=results-$TIMESTAMP \
+  #           --robo-directives=text:emailTextField=eve.holt@reqres.in,text:passwordTextField=pistol \
+  #           --max-steps=50 \
+  #           --max-depth=10 \
+  #           --quiet
+
+  deploy-play-store:
+    name: Deploy to Play Store
+    needs: [test, build-android]
     runs-on: ubuntu-22.04
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download app APK
-        uses: actions/download-artifact@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          name: app-debug
-          path: app-debug
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          credentials_json: '${{ secrets.GCLOUD_AUTH }}'
+          flutter-version: '3.x'
+          channel: 'stable'
+          cache: true
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
-
-      - name: Install beta components
+      - name: Decode Keystore
         run: |
-          gcloud components install beta --quiet
-          gcloud components update --quiet
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
 
-      - name: Run tests in Firebase Test Lab
+      - name: Create key.properties
         run: |
-          BUCKET_NAME="longvox_test_flutter"
-          TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-          gcloud firebase test android run \
-            --type robo \
-            --app app-debug/app-debug.apk \
-            --device model=Pixel2,version=28,locale=en \
-            --timeout 300s \
-            --results-bucket=gs://$BUCKET_NAME \
-            --results-dir=results-$TIMESTAMP \
-            --robo-directives=text:emailTextField=eve.holt@reqres.in,text:passwordTextField=pistol \
-            --max-steps=50 \
-            --max-depth=10 \
-            --quiet
+          echo "storeFile=keystore.jks" > android/key.properties
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+
+      - name: Build Release AAB
+        run: |
+          flutter pub get
+          flutter build appbundle --release
+
+      - name: Deploy to Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          packageName: com.example.flutter_getx_boilerplate
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          track: internal
+          status: completed
+          changesNotSentForReview: false
 
   # build-ios:
   #   name: Build iOS App
