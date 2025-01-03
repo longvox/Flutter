@@ -1,21 +1,19 @@
 {
   "startingActions": [
     {
-      "input": {
-        "type": "BACK"
-      }
+      "action": "BACK"
     }
   ],
-  "eventFilters": [
+  "ignoreActions": [
     {
-      "blacklist": [
-        "clickable": "Sign Out",
-        "clickable": "Delete Account"
-      ]
+      "resourceId": "signOutButton"
+    },
+    {
+      "resourceId": "deleteAccountButton"
     }
   ],
   "crawlRules": {
-    "maxDepth": 8,
-    "maxSteps": 100
+    "maxDepth": 5,
+    "maxSteps": 50
   }
 }

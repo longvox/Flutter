@@ -127,7 +127,6 @@ jobs:
             --robo-script=robo_script.json \
             --num-flaky-test-attempts=1 \
             --directories-to-pull=/sdcard/screenshots \
-            --environment-variables=clearPackageData=true \
             --quiet
 
   # build-ios:
