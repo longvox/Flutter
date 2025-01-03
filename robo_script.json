@@ -1,18 +1,20 @@
 {
   "startingActions": [
     {
-      "action": "BACK"
+      "eventType": "PRESS_BACK"
     }
   ],
-  "ignoreActions": [
+  "skipActions": [
     {
-      "resourceId": "signOutButton"
+      "eventType": "CLICK",
+      "resourceName": "signOutButton"
     },
     {
-      "resourceId": "deleteAccountButton"
+      "eventType": "CLICK",
+      "resourceName": "deleteAccountButton"
     }
   ],
-  "crawlRules": {
+  "settings": {
     "maxDepth": 5,
     "maxSteps": 50
   }
