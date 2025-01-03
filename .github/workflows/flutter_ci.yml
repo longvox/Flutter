@@ -120,13 +120,11 @@ jobs:
           gcloud firebase test android run \
             --type robo \
             --app app-debug/app-debug.apk \
-            --device model=Pixel2,version=28,locale=en,orientation=portrait \
+            --device model=Pixel2,version=28 \
             --timeout 90s \
             --results-bucket=gs://$BUCKET_NAME \
             --results-dir=test-results \
             --robo-script=robo_script.json \
-            --num-flaky-test-attempts=1 \
-            --directories-to-pull=/sdcard/screenshots \
             --quiet
 
   # build-ios:

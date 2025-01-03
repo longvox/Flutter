@@ -1,21 +1,34 @@
 {
-  "startingActions": [
+  "events": [
     {
-      "eventType": "PRESS_BACK"
-    }
-  ],
-  "skipActions": [
-    {
-      "eventType": "CLICK",
-      "resourceName": "signOutButton"
+      "type": "PRESS_BACK"
     },
     {
-      "eventType": "CLICK",
-      "resourceName": "deleteAccountButton"
+      "type": "ENTER_TEXT",
+      "target": {
+        "className": "android.widget.EditText",
+        "resourceName": "emailTextField"
+      },
+      "text": "eve.holt@reqres.in"
+    },
+    {
+      "type": "ENTER_TEXT",
+      "target": {
+        "className": "android.widget.EditText",
+        "resourceName": "passwordTextField"
+      },
+      "text": "pistol"
+    },
+    {
+      "type": "CLICK",
+      "target": {
+        "className": "android.widget.Button",
+        "resourceName": "loginButton"
+      }
+    },
+    {
+      "type": "DELAY",
+      "duration": "2000"
     }
-  ],
-  "settings": {
-    "maxDepth": 5,
-    "maxSteps": 50
-  }
+  ]
 }
