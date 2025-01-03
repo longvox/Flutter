@@ -109,7 +109,7 @@ jobs:
 
       - name: Create storage bucket
         run: |
-          BUCKET_NAME="${{ secrets.FIREBASE_PROJECT_ID }}-test-lab"
+          BUCKET_NAME="longvox_test_flutter"
 
           # Try to create the bucket, ignore if it already exists
           gsutil mb -p ${{ secrets.FIREBASE_PROJECT_ID }} gs://$BUCKET_NAME || true
