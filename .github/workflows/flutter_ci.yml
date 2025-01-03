@@ -107,23 +107,17 @@ jobs:
           gcloud components install beta --quiet
           gcloud components update --quiet
 
-      - name: Create storage bucket
-        run: |
-          BUCKET_NAME="longvox_test_flutter"
-
-          # Try to create the bucket, ignore if it already exists
-          gsutil mb -p ${{ secrets.FIREBASE_PROJECT_ID }} gs://$BUCKET_NAME || true
-
       - name: Run tests in Firebase Test Lab
         run: |
           BUCKET_NAME="longvox_test_flutter"
+          TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
           gcloud firebase test android run \
             --type robo \
             --app app-debug/app-debug.apk \
             --device model=Pixel2,version=28 \
             --timeout 90s \
             --results-bucket=gs://$BUCKET_NAME \
-            --results-dir=test-results \
+            --results-dir=results-$TIMESTAMP \
             --robo-script=robo_script.json \
             --quiet
 

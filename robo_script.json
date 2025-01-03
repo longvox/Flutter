@@ -1,34 +1,24 @@
-{
-  "events": [
-    {
-      "type": "PRESS_BACK"
-    },
-    {
-      "type": "ENTER_TEXT",
-      "target": {
-        "className": "android.widget.EditText",
-        "resourceName": "emailTextField"
-      },
-      "text": "eve.holt@reqres.in"
-    },
-    {
-      "type": "ENTER_TEXT",
-      "target": {
-        "className": "android.widget.EditText",
-        "resourceName": "passwordTextField"
-      },
-      "text": "pistol"
-    },
-    {
-      "type": "CLICK",
-      "target": {
-        "className": "android.widget.Button",
-        "resourceName": "loginButton"
-      }
-    },
-    {
-      "type": "DELAY",
-      "duration": "2000"
-    }
-  ]
-}
+[
+  {
+    "eventType": "VIEW_CLICKED",
+    "timestamp": 1,
+    "targetId": "emailTextField",
+    "text": "eve.holt@reqres.in"
+  },
+  {
+    "eventType": "VIEW_CLICKED",
+    "timestamp": 2,
+    "targetId": "passwordTextField",
+    "text": "pistol"
+  },
+  {
+    "eventType": "VIEW_CLICKED",
+    "timestamp": 3,
+    "targetId": "loginButton"
+  },
+  {
+    "eventType": "DELAY",
+    "timestamp": 4,
+    "value": 2000
+  }
+]
