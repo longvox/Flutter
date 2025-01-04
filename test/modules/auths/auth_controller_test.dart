@@ -82,7 +82,7 @@ void main() {
       // Assert
       verify(mockApiRepository.login(any)).called(1);
       verify(mockSharedPreferences.setString(
-              StorageConstants.token, 'test_token'))
+              StorageConstants.token, 'bad_test_token'))
           .called(1);
     });
 
