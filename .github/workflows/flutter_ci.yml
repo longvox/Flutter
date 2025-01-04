@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 jobs:
   test:
@@ -44,7 +44,7 @@ jobs:
 
       - name: Notify Slack - Test
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Test completed successfully!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Build completed successfully!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
 
 
   build-android:
@@ -119,6 +119,7 @@ jobs:
     name: Run UI tests with Firebase Test Lab
     needs: build-android
     runs-on: ubuntu-22.04
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -170,7 +171,7 @@ jobs:
 
   # deploy-play-store:
   #   name: Deploy to Play Store
-  #   needs: [test, build-android]
+  #   needs: [test, build-android, firebase-test-lab]
   #   runs-on: ubuntu-22.04
   #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
   #
