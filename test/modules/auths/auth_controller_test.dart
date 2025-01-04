@@ -65,7 +65,7 @@ void main() {
       when(mockApiRepository.login(any)).thenAnswer((_) async => loginResponse);
 
       when(mockSharedPreferences.setString(
-              StorageConstants.token, 'test_token'))
+              StorageConstants.token, 'bad_test_token'))
           .thenAnswer((_) async => true);
 
       authController.loginEmailController.text = 'test@example.com';
