@@ -147,8 +147,8 @@ jobs:
           gcloud components update --quiet
 
       - name: Notify Slack - Run tests in Firebase Test Lab
-          run: |
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Run tests in Firebase Test Lab"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Run tests in Firebase Test Lab"}' ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Run tests in Firebase Test Lab
         run: |
